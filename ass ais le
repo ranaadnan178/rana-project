@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+<head> 
+<title>ASS AIS</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+</head>
+
+
+<body>
+
+<style>
+table {
+    width:100%;
+}
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+th, td {
+    padding: 5px;
+    text-align: left;
+}
+table#t01 tr:nth-child(even) {
+    background-color: #eee;
+}
+table#t01 tr:nth-child(odd) {
+   background-color:#fff;
+}
+table#t01 th	{
+    background-color: black;
+    color: white;
+}
+</style>
+
+<h3>your height:</h3> <input type="number" class="form-control" style="width:50%;" id="myText">
+
+
+<button onclick="myFunction()" class="btn btn-primary">Try it</button>
+
+<table class="table table-condensed" id="t01">
+  <tr>
+    <th>Length</th>
+    <th>tall</th>
+    <th>short</th>		
+    <th>avg</th>
+  </tr>
+  <tr>
+    <td id="x"></td> 
+    <td id="ytall"></td>
+    <td id="yshort"></td>		
+    <td id="yavgr"></td>
+  </tr>
+ 
+</table>
+<button onclick="draw()" class="btn btn-primary">Draw</button>
+<script>
+function myFunction() {
+
+var table = document.getElementById("t01");
+var row = table.insertRow(table.length);
+    var cell1 = row.insertCell(0);
+    var cell2 = row.insertCell(1);
+    var cell3 = row.insertCell(2);
+    var cell4 = row.insertCell(3);
+    var x =document.getElementById("myText").value;
+cell1.innerHTML = x ;
+var ytall =parseInt(((.1*x-18)*10))/10;
+var yshort=parseInt(((-.1*x+17)*10)+1)/10;
+var yavgr =parseInt(((-.1*x+18.5)*10))/10;
+var yavgl =parseInt(((.1*x-16.5)*10))/10;
+
+
+if (ytall>1){ytall =1;}
+if(yshort>1){yshort=1;}
+
+if(ytall<=1 && ytall>=0)
+  cell2.innerHTML =  ytall;
+if(yshort<=1 && yshort>=0)
+  cell3.innerHTML = (yshort*10)/10;
+if(yavgr <=1 && yavgr >=0 )  
+  cell4.innerHTML = (yavgr*10)/10 ;
+  if(yavgl <=1 && yavgl >=0)
+  cell4.innerHTML = (yavgl*10)/10 ;
+}
+
+
+
+
+</script>
+<canvas id="myCanvas" width="600" height="300"
+style="border:0px solid #d3d3d3;">
+Your browser does not support the canvas element.
+</canvas>
+
+
+<script>
+
+var canvas = document.getElementById("myCanvas");
+var ctx = canvas.getContext("2d");
+//y line
+ctx.moveTo(30,30);
+ctx.lineTo(30,260);
+ctx.stroke();
+//x line
+ctx.moveTo(30,260);
+ctx.lineTo(510,260);
+ctx.stroke();
+
+//for y number
+var i;
+var m=30;
+var n=1;
+for (i = 0; i < 6; i++) {
+ 
+ctx.moveTo(30,m);
+ctx.lineTo(20,m);
+ctx.fillText(n, 1, m);
+ctx.stroke();
+  m=m+46;
+  n=(n*10-0.2*10)/10;
+}
+
+//for x number
+var j;
+var m=30;
+var n=150;
+for (j = 0; j < 13; j++) {
+ 
+ctx.moveTo(m,260);
+ctx.lineTo(m,270);
+ctx.fillText(n, m-8, 280);
+ctx.stroke();
+  m=m+40;
+ n=n+5;
+}
+
+
+
+//tall
+ctx.beginPath();
+ctx.moveTo(510, 30);
+ctx.lineTo(510, 260);
+ctx.lineTo(270, 260);
+ctx.lineTo(355, 30);
+ctx.closePath();
+ctx.stroke();
+ctx.fill();
+
+ctx.globalAlpha = 0.9;
+//avg
+ctx.beginPath();
+ctx.moveTo(230, 30);
+ctx.lineTo(310, 260);
+ctx.lineTo(150, 260);
+ctx.lineTo(210, 100);
+ctx.closePath();
+ctx.stroke();
+ctx.fillStyle = "gray";
+ctx.fill();
+
+
+
+
+//short
+ctx.beginPath();
+ctx.moveTo(30, 30);
+ctx.lineTo(100, 30);
+ctx.lineTo(190, 260);
+ctx.lineTo(30, 260);
+ctx.closePath();
+ctx.stroke();
+
+//avg small
+ctx.beginPath();
+ctx.moveTo(170, 210);
+ctx.lineTo(170, 210);
+ctx.lineTo(190, 260);
+ctx.lineTo(150, 260);
+ctx.closePath();
+ctx.fillStyle = "#F0F0F0 ";
+ctx.fill();
+
+//avg tall
+ctx.beginPath();
+ctx.moveTo(290, 205);
+ctx.lineTo(310, 260);
+ctx.lineTo(290, 260);
+ctx.lineTo(270, 260);
+ctx.closePath();
+ctx.fillStyle = "#383838";
+ctx.fill();
+
+
+
+
+function draw() {
+var x =document.getElementById("myText").value;
+	
+var ytall =((.1*x-18)*10)/10; 
+var yshort=((-.1*x+17)*10)/10;
+var yavgr =((-.1*x+18.5)*10)/10;
+var yavgl =((.1*x-16.5)*10)/10;	
+
+	var m =((x-150)*40/5)+30;
+	
+
+	
+if(ytall>0&&ytall<=1){
+var w = ((ytall/.2)*46)-30;
+    ctx.beginPath();
+    ctx.moveTo(m, 260);
+	ctx.lineTo(m, 230-w);
+	ctx.lineTo(30, 230-w);
+	ctx.strokeStyle = '#ff0000';
+    ctx.stroke();
+    
+	}
+if(yshort>0&&yshort<=1){
+var w = ((yshort/.2)*46)-30;
+    ctx.beginPath();
+	ctx.moveTo(m, 260);
+	ctx.lineTo(m, 230-w);
+	ctx.lineTo(30, 230-w);
+	ctx.strokeStyle = '#ff0000';
+	ctx.stroke();
+	}
+if(yavgr>0&&yavgr<=1){
+var w = ((yavgr/.2)*46)-30;
+    ctx.beginPath();
+	ctx.moveTo(m, 260);
+	ctx.lineTo(m, 230-w);
+	ctx.lineTo(30, 230-w);
+	ctx.strokeStyle = '#ff0000';
+    ctx.stroke();
+	}
+if(yavgl>0&&yavgl<=1){
+var w = ((yavgl/.2)*46)-30;
+    ctx.beginPath();
+	ctx.moveTo(m, 260);
+	ctx.lineTo(m, 230-w);
+	ctx.lineTo(30, 230-w);
+	ctx.strokeStyle = '#ff0000';
+    ctx.stroke();
+		}
+
+
+}
+
+
+
+	</script>
+
+
+
+
+
+</body>
+</html>
